@@ -1,0 +1,38 @@
+name: My Main CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  terraform-directory: ./terraform
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.4.0
+    - name: Create terraform.tfvars file
+      run: echo $'${{ secrets.TFVARS }}' > terraform.tfvars
+      working-directory: ${{ env.terraform-directory }}
+    - name: Terraform Init
+      run: terraform init -upgrade
+            -backend-config="storage_account_name=${{ secrets.STORAGRE_ACOUNT_NAME }}"
+            -backend-config="container_name=${{ secrets.CONTAINER_NAME }}"
+            -backend-config="access_key=${{ secrets.AZURE_STORAGE_ACCESS_KEY }}"
+      working-directory: ${{ env.terraform-directory }}
+    - name: Terraform Plan
+      run: terraform plan
+      working-directory: ${{ env.terraform-directory }}
+    - name: Terraform Apply
+      run: terraform apply --auto-approve
+      working-directory: ${{ env.terraform-directory }}
