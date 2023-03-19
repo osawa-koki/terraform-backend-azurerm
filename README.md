@@ -16,7 +16,7 @@ GitHub Actionsを利用して、Terraformの状態をAzure Blob Storageに保存
 
 ---
 
-`terraform.tfvars`に必要なクライアントID、クライアントシークレット、サブスクリプションID、テナントIDは以下のコマンドでサービスプリンシパルを作成してください。  
+`terraform.tfvars`に必要なクライアントID、クライアントシークレット、サブスクリプションID、テナントIDは以下のコマンドでサービスプリンシパルを作成して、入力してください。  
 
 ```shell
 az ad sp create-for-rbac --name "サービスプリンシパル名" --role contributor --scopes /subscriptions/サブスクリプションID --sdk-auth
