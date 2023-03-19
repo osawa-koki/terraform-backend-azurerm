@@ -23,3 +23,13 @@ variable "tenant_id" {
   type        = string
   description = "The tenant ID"
 }
+
+variable "ssh_public_key" {
+  type        = string
+  description = "Content of the public key."
+}
+
+variable "allowed_ip_addresses" {
+  type        = list(string)
+  description = "IP addresses allowed to access the instance."
+}
